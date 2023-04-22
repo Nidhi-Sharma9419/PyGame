@@ -23,3 +23,6 @@ In Pygame, the event queue is a buffer that stores all the input events generate
 6. a 2-Dimensional Vector
 7. pygame.math.Vector3
 8. a 3-Dimensional Vector
+
+"pygame.draw" module:-
+1. Pygame.draw is a module in the Pygame library that provides functions to draw basic shapes like lines, rectangles, circles, and polygons on a Pygame surface.
