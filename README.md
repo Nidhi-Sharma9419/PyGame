@@ -26,3 +26,8 @@ In Pygame, the event queue is a buffer that stores all the input events generate
 
 "pygame.draw" module:-
 1. Pygame.draw is a module in the Pygame library that provides functions to draw basic shapes like lines, rectangles, circles, and polygons on a Pygame surface.
+  1. Some common attributes are:-
+  - pygame.draw.line(surface, color, start_pos, end_pos, width=1)
+  - pygame.draw.rect(surface, color, rect, width=0)
+  - pygame.draw.circle(surface, color, center, radius, width=0)
+  - pygame.draw.polygon(surface, color, pointlist, width=0) 
