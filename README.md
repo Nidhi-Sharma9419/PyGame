@@ -31,3 +31,6 @@ In Pygame, the event queue is a buffer that stores all the input events generate
   - pygame.draw.rect(surface, color, rect, width=0)
   - pygame.draw.circle(surface, color, center, radius, width=0)
   - pygame.draw.polygon(surface, color, pointlist, width=0) 
+  
+2. Moving an Object
+
