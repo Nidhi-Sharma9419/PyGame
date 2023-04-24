@@ -33,4 +33,5 @@ In Pygame, the event queue is a buffer that stores all the input events generate
   - pygame.draw.polygon(surface, color, pointlist, width=0) 
   
 2. Moving an Object
+  - "screen.blit(ball, (x, y)) " is a function call in Pygame that blits or draws an image (in this case, the ball image) onto the screen at the specified coordinates (x, y).
 
