@@ -23,7 +23,7 @@ while True:
             quit()
 
     # Update ball position
-    x += 2.5
+    x += 5
     y += 0
 
     # Draw ball on screen
