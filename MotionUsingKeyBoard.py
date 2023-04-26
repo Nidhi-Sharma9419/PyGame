@@ -10,7 +10,7 @@ RED = (225, 0, 0)
 #create screen
 screen = pygame.display.set_mode([1280,720])
 
-object_color = (255, 0, 0)
+
 
 # Set the dimensions of the object
 object_width = 50
@@ -20,7 +20,7 @@ object_height = 50
 object_x = 0   #Don't know how this is working?
 object_y = 0
 
-pygame.draw.rect(screen, object_color, (object_x, object_y, object_width, object_height))
+pygame.draw.rect(screen, RED, (object_x, object_y, object_width, object_height))
 
 test = False
 while not test:
