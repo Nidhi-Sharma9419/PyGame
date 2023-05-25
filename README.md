@@ -36,5 +36,10 @@ In Pygame, the event queue is a buffer that stores all the input events generate
   - "screen.blit(ball, (x, y)) " is a function call in Pygame that blits or draws an image (in this case, the ball image) onto the screen at the specified coordinates (x, y).
 3. Motion of object using KeyBoard  
 
+
+
+
+FLASK WebSocket Server
+
   
 
