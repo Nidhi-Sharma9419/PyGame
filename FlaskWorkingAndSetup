@@ -1,1 +1,68 @@
-Need to write full 
+Make directory
+1. mkdir wsdemo    //nameoffolder
+
+writing python code using flask and then saving file as wsdemo.py //this file should be inside folder wsdemo
+
+Use the following command to create virtual environment
+2. python -m venv venv
+
+Source (or activate) the virtual environment
+//Mine won't work in this way -> venv/bin/activate
+3. cd venv
+4. cd Scripts
+5. activate
+
+The "Flask_APP" command is used to set the name of the Flask application for running or managing Flask applications.
+6. set Flask_APP=wsdemo.py
+7. flask run
+
+
+After this ,it will show following text if executed successfully
+ * Serving Flask app 'wsdemo.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+
+ *DO NOT PRESS ctrl+C*, it will quit the network activation 
+
+ 8. Now open new command prompt
+
+ 9. Activate virtual environment in same folder(Mine was wsdemo)
+
+ 'wscat' is a utility used for WebSocket communication, often installed through Node Package Manager (npm).
+
+install wscat using following command
+
+10. npm install -g wscat
+
+11. wscat --connect ws://localhost:5000/reverse
+
+wscat is attempting to connect to a WebSocket server.
+ The command you provided, wscat --connect ws://localhost:5000/reverse, is attempting to connect to a WebSocket server running at ws://localhost:5000/reverse.
+
+READY TO EXECUTE!
+ 
+ 
+ 
+ Extra Tips : commands for verification
+
+To check flask is installed or not
+pip show flask
+
+Verify that the server is indeed running and accessible. You can use tools like telnet or curl to check if the server is accepting connections.
+telnet ::1 5000
+or
+telnet 127.0.0.1 5000
+
+For Windows: Open the Control Panel and navigate to "Programs" or "Programs and Features." Click on "Turn Windows features on or off." In the Windows Features dialog box, locate "Telnet Client" and enable it. Click "OK" to save the changes. The Telnet client will be installed.
+
+How to know we are actually running the server before making post reaquest?
+Run following command
+Verify that the server is listening on the correct port. You can use various tools to check if the port is open and actively listening. For example, on Windows, you can use the `netstat` command with the `-a -n` flags to list all active network connections and listening ports. Look for an entry that corresponds to the expected port number of your server.
+
+
+
+
+
+
+
