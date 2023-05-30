@@ -14,16 +14,56 @@ AI'''
 uPDATING POSITIONS'
 Checking for collision'''
 
+
+'''There is a colliderect method which return true if it collides with one triangle'''
+def point_won(winner):
+    global cpu_points, player_points
+
+    if winner == "cpu":
+        cpu_points += 1
+    if winner == "player":
+        #player_points += 1
+        pygame.quit
+    
+
+
+
 def animate_bally():
     global bally_speed_x, bally_speed_y
     bally.x+= bally_speed_x   #this will increase each by pixel
     bally.y+= bally_speed_y
 
     if bally.bottom >= screen_height or bally.top<= 0:
-        bally_speed_y *= -1
+       bally_speed_y *= -1
 
-    if bally.right >= screen_width or bally.left <= 0:
+    if bally.right >= screen_width:
+       point_won("cpu")
+        
+    if bally.left <= 0:
+       point_won("player")
+
+    if bally.colliderect(player) or bally.colliderect(cpu):
         bally_speed_x *= -1
+
+def animate_player():
+    player.y += player_speed
+    if player.top <= 0:
+        player.top=0
+    if player.bottom >= screen_height:
+        player.bottom = screen_height
+
+def  animate_cpu():
+    global cpu_speed
+    cpu.y += cpu_speed
+    if bally.centery <= cpu.centery:
+        cpu_speed = -6
+    if bally.centery >= cpu.centery:
+        cpu_speed = 6
+
+    if cpu.top <= 0:
+        cpu.top = 0
+    if cpu.bottom>= screen_height:
+        cpu.bottom = screen_height
 
 
 pygame.init()
@@ -69,6 +109,9 @@ player.midright = (screen_width, screen_height/2)
 bally_speed_x = 6
 bally_speed_y = 6
 
+player_speed = 0
+cpu_speed = 6
+
 
 '''Now GAME LOOP part''' 
 #Check for events
@@ -80,8 +123,23 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                player_speed = -6
+            if event.key == pygame.K_DOWN:
+                player_speed = +6
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                player_speed = 0
+            if event.key == pygame.K_DOWN:
+                player_speed = 0        
+                
          
-        animate_bally()    
+        animate_bally()
+        animate_player()
+        animate_cpu()
+
+        
 
         '''bally.x+= bally_speed_x   #this will increase each by pixel
         bally.y+= bally_speed_y
