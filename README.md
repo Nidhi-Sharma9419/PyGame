@@ -41,5 +41,7 @@ In Pygame, the event queue is a buffer that stores all the input events generate
 
 FLASK WebSocket Server
 
+OBSERVER DESIGN PATTERN
+
   
 
