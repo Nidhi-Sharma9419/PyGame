@@ -53,3 +53,9 @@ while not test:
         pygame.display.flip() 
 
 pygame.quit()
+
+'''if event.type == pygame.KEYDOWN:  
+                key_input = pygame.key.   
+                print(key_input[pygame.K_w], key_input[pygame.K_a], key_input[pygame.K_d])
+            elif event.type == pygame.KEYUP:
+                key_input = pygame.key.get_pressed()'''

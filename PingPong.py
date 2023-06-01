@@ -1,4 +1,8 @@
 import pygame, sys
+import websocket
+from pygame.event import Event
+import threading
+
 
 '''What's imp
 Movement
@@ -24,6 +28,30 @@ def point_won(winner):
     if winner == "player":
         #player_points += 1
         pygame.quit
+
+move_up = pygame.event.custom_type()
+move_down = pygame.event.custom_type()
+move_left = pygame.event.custom_type()
+move_right = pygame.event.custom_type()
+keyup = pygame.event.custom_type()
+keydown = pygame.event.custom_type()
+
+def on_message(wsapp, message):
+    if(message == 'w'):
+        pygame.event.post(Event(move_up))
+    if(message == 's'):
+        pygame.event.post(Event(move_down))
+    if(message == 'a'):
+        pygame.event.post(Event(move_left))
+    if(message == 'd'):
+        pygame.event.post(Event(move_right))
+            
+
+# websocket.enableTrace(True)
+wsapp = websocket.WebSocketApp("ws://192.168.153.239:3000/ws", on_message=on_message)
+wsapp_thread = threading.Thread(target=wsapp.run_forever)
+wsapp_thread.daemon = True
+wsapp_thread.start()        
     
 
 
@@ -37,10 +65,10 @@ def animate_bally():
        bally_speed_y *= -1
 
     if bally.right >= screen_width:
-       point_won("cpu")
+        point_won("cpu")
         
     if bally.left <= 0:
-       point_won("player")
+        point_won("player")
 
     if bally.colliderect(player) or bally.colliderect(cpu):
         bally_speed_x *= -1
@@ -81,8 +109,8 @@ pygame.display.set_caption("My Pong Game")
 clock = pygame.time.Clock()
 
 '''Definitions part completed'''
-BLACK = (0,0,0)
-RED = (225, 0, 0)
+BLACK = (255,229,180)
+RED = (210, 4, 45)
 #create screen
 #screen = pygame.display.set_mode([1280,720])
 
@@ -123,57 +151,55 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                player_speed = -6
-            if event.key == pygame.K_DOWN:
-                player_speed = +6
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
+        #if event.type == pygame.KEYDOWN:
+        if event.key == pygame.move_up:
+            player_speed = -6
+        elif event.key == pygame.move_down:
+            player_speed = +6
+        else:
+            player_speed=0        
+        '''if event.type == pygame.KEYUP:
+            if event.key == pygame.move_up:
                 player_speed = 0
-            if event.key == pygame.K_DOWN:
-                player_speed = 0        
+            if event.key == pygame.move_down:
+                player_speed = 0'''        
                 
-         
-        animate_bally()
-        animate_player()
-        animate_cpu()
+    animate_bally()
+    animate_player()
+    animate_cpu()
 
         
 
-        '''bally.x+= bally_speed_x   #this will increase each by pixel
-        bally.y+= bally_speed_y
-
-        if bally.bottom >= screen_height or bally.top<= 0:
-            bally_speed_y *= -1
-
-        if bally.right >= screen_width or bally.left <= 0:
-            bally_speed_x *= -1'''
+    '''bally.x+= bally_speed_x   #this will increase each by pixel
+    bally.y+= bally_speed_y
+    if bally.bottom >= screen_height or bally.top<= 0:
+        bally_speed_y *= -1
+    if bally.right >= screen_width or bally.left <= 0:
+        bally_speed_x *= -1'''
         
     #Draw game objects
-        screen.fill(BLACK) #does not leave mark when object moves
+    screen.fill(BLACK) #does not leave mark when object moves
     #crate rectangle
-        surface = pygame.Surface([100,100])
-        surface.fill(RED)
-        rectangle=surface.get_rect()
+    surface = pygame.Surface([100,100])
+    surface.fill(RED)
+    rectangle=surface.get_rect()
     #give position of our rectangle
-        rectangle.x=640
-        rectangle.y = 300
+    rectangle.x=640
+    rectangle.y = 300
     
     #draw rectangle
-        pygame.draw.aaline(screen, 'white', (screen_width/2,0), (screen_width/2, screen_height))
-        pygame.draw.ellipse(screen, RED, bally)
-
-        pygame.draw.rect(screen, 'white', cpu)
-        pygame.draw.rect(screen, 'white', player)
-        pygame.display.flip()     
+    pygame.draw.aaline(screen, 'black', (screen_width/2,0), (screen_width/2, screen_height))
+    pygame.draw.ellipse(screen, RED, bally)
+    pygame.draw.rect(screen, 'black', cpu)
+    pygame.draw.rect(screen, 'black', player)
+    pygame.display.flip()     
     #Update the diplay
     pygame.display.update
 
     #Now we need to tell the object how fast it should run
     #that's why we will use tick() function
     #It takes an integer as an argument an that integer is the number of frames per second that we want
-    clock.tick(60)
+    clock.tick(50)
 
 
     #How to draw things on the surface
