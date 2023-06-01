@@ -1,5 +1,5 @@
 import pygame, sys
-import websocket
+#import websocket
 from pygame.event import Event
 import threading
 
@@ -29,31 +29,31 @@ def point_won(winner):
         #player_points += 1
         pygame.quit
 
-move_up = pygame.event.custom_type()
-move_down = pygame.event.custom_type()
-move_left = pygame.event.custom_type()
-move_right = pygame.event.custom_type()
+cpu_up = pygame.event.custom_type()
+cpu_down = pygame.event.custom_type()
+player_up = pygame.event.custom_type()
+player_down = pygame.event.custom_type()
 keyup = pygame.event.custom_type()
 keydown = pygame.event.custom_type()
 
-def on_message(wsapp, message):
+'''def on_message(message):
     if(message == 'w'):
-        pygame.event.post(Event(move_up))
+        pygame.event.post(Event(cpu_up))
     if(message == 's'):
-        pygame.event.post(Event(move_down))
-    if(message == 'a'):
-        pygame.event.post(Event(move_left))
-    if(message == 'd'):
-        pygame.event.post(Event(move_right))
+        pygame.event.post(Event(cpu_down))
+    if(message == 'K_UP'):
+        pygame.event.post(Event(player_up))
+    if(message == 'K_DOWN'):
+        pygame.event.post(Event(player_down))'''
             
-
+'''
 # websocket.enableTrace(True)
 wsapp = websocket.WebSocketApp("ws://192.168.153.239:3000/ws", on_message=on_message)
 wsapp_thread = threading.Thread(target=wsapp.run_forever)
 wsapp_thread.daemon = True
 wsapp_thread.start()        
     
-
+'''
 
 
 def animate_bally():
@@ -81,12 +81,9 @@ def animate_player():
         player.bottom = screen_height
 
 def  animate_cpu():
-    global cpu_speed
+    
     cpu.y += cpu_speed
-    if bally.centery <= cpu.centery:
-        cpu_speed = -6
-    if bally.centery >= cpu.centery:
-        cpu_speed = 6
+    
 
     if cpu.top <= 0:
         cpu.top = 0
@@ -138,7 +135,7 @@ bally_speed_x = 6
 bally_speed_y = 6
 
 player_speed = 0
-cpu_speed = 6
+cpu_speed = 0
 
 
 '''Now GAME LOOP part''' 
@@ -151,19 +148,45 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        #if event.type == pygame.KEYDOWN:
-        if event.key == pygame.move_up:
+            
+        
+        '''if event.key == player_up:
             player_speed = -6
-        elif event.key == pygame.move_down:
+        if event.key == player_down:
+            player_speed = +6
+    
+        if event.key == pygame.K_UP:
+            player_speed = 0
+        if event.key == pygame.K_DOWN:
+            player_speed = 0
+    
+    
+        if event.key == cpu_up:
+            cpu_speed = -6
+        if event.key == cpu_down:
+            cpu_speed = +6
+    
+        if event.key == pygame.K_UP:
+            cpu_speed = 0
+        if event.key == pygame.K_DOWN:
+            cpu_speed = 0       '''   
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            cpu_speed= -6
+        elif keys[pygame.K_s]:
+            cpu_speed = +6
+        else:
+            cpu_speed = 0    
+            
+        if keys[pygame.K_UP]:
+            player_speed = -6
+        elif keys[pygame.K_DOWN]:
             player_speed = +6
         else:
-            player_speed=0        
-        '''if event.type == pygame.KEYUP:
-            if event.key == pygame.move_up:
-                player_speed = 0
-            if event.key == pygame.move_down:
-                player_speed = 0'''        
-                
+            player_speed=0     
+        
+                     
+            
     animate_bally()
     animate_player()
     animate_cpu()
