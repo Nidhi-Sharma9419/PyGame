@@ -30,31 +30,42 @@ def point_won(winner):
         #player_points += 1
         pygame.quit
 
-move_up = pygame.event.custom_type()
-move_down = pygame.event.custom_type()
-release = pygame.event.custom_type()
+player1_up = pygame.event.custom_type() #No use ok it is for you to use this
+player1_down = pygame.event.custom_type()
+player2_up = pygame.event.custom_type()
+player2_down = pygame.event.custom_type()
+release1 = pygame.event.custom_type()
+release2 = pygame.event.custom_type()
+keyup = pygame.event.custom_type()
+keydown = pygame.event.custom_type()
 
 def on_message(wsapp, message):
     data = json.loads(message)
-    # print(data)
+    player = data['player']
     isPressed = data['pressed']
     if isPressed:
         move = data['direction']
-        if not move:
-            pygame.event.post(Event(move_up))
-        else:
-            pygame.event.post(Event(move_down))
+
+        if move and player:
+            pygame.event.post(Event(player1_up))
+        elif not move and player:
+            pygame.event.post(Event(player1_down))
+        elif move and not player:
+            pygame.event.post(Event(player2_up))
+        elif not move and not player:
+            pygame.event.post(Event(player2_down))
     else:
-        pygame.event.post(Event(release))
+        if(player):
+            pygame.event.post(Event(release1))
+        else:
+            pygame.event.post(Event(release2))
 
 
 # websocket.enableTrace(True)
 wsapp = websocket.WebSocketApp("ws://192.168.64.239:3000/game", on_message=on_message)
 wsapp_thread = threading.Thread(target=wsapp.run_forever)
 wsapp_thread.daemon = True
-wsapp_thread.start()        
-    
-
+wsapp_thread.start()    
 
 
 def animate_bally():
@@ -82,12 +93,9 @@ def animate_player():
         player.bottom = screen_height
 
 def  animate_cpu():
-    global cpu_speed
+    
     cpu.y += cpu_speed
-    if bally.centery <= cpu.centery:
-        cpu_speed = -6
-    if bally.centery >= cpu.centery:
-        cpu_speed = 6
+    
 
     if cpu.top <= 0:
         cpu.top = 0
@@ -139,11 +147,11 @@ bally_speed_x = 6
 bally_speed_y = 6
 
 player_speed = 0
-cpu_speed = 6
+cpu_speed = 0
 
 
-'''Now GAME LOOP part'''
-#Check for event
+'''Now GAME LOOP part''' 
+#Check for events
 #Update the positions of the game objects
 #Draw the game objects and update the screen
 
@@ -152,24 +160,49 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        #if event.type == pygame.KEYDOWN:
-        if event.type == move_down:
+        
+        if event.type == player1_up:
             player_speed = -6
-        elif event.type == move_up:
+        if event.type == player1_down:
             player_speed = +6
-        elif event.type == release:
-            player_speed=0        
-        '''if event.type == pygame.KEYUP:
-            if event.key == pygame.move_up:
-                player_speed = 0
-            if event.key == pygame.move_down:
-                player_speed = 0'''        
-                
+        if event.type == player2_up:
+            cpu_speed = -6
+        if event.type == player2_down:
+            cpu_speed = +6
+        if event.type == release1:
+            player_speed = 0
+        if event.type == release2:
+            cpu_speed = 0
+    
+        # if event.key == cpu_up:
+        #     cpu_speed = -6
+        # if event.key == cpu_down:
+        #     cpu_speed = +6
+    
+        # if event.key == pygame.K_UP:
+        #     cpu_speed = 0
+        # if event.key == pygame.K_DOWN:
+        #     cpu_speed = 0      
+        # keys = pygame.key.get_pressed()
+        # if keys[pygame.K_w]:        #here!! kk
+        #     cpu_speed= -6
+        # elif keys[pygame.K_s]:
+        #     cpu_speed = +6
+        # else:
+        #     cpu_speed = 0    
+            
+        # if keys[pygame.K_UP]:
+        #     player_speed = -6
+        # elif keys[pygame.K_DOWN]:
+        #     player_speed = +6
+        # else:
+        #     player_speed=0     
+        
+            
     animate_bally()
     animate_player()
     animate_cpu()
 
-        
 
     '''bally.x+= bally_speed_x   #this will increase each by pixel
     bally.y+= bally_speed_y
@@ -204,4 +237,8 @@ while True:
 
 
     #How to draw things on the surface
+    
+    
+    
+        
 
