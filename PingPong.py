@@ -142,8 +142,8 @@ player_speed = 0
 cpu_speed = 6
 
 
-'''Now GAME LOOP part''' 
-#Check for events
+'''Now GAME LOOP part'''
+#Check for event
 #Update the positions of the game objects
 #Draw the game objects and update the screen
 
